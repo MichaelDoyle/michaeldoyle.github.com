@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[Michael Doyle]]></title>
   <link href="http://MichaelDoyle.github.com/atom.xml" rel="self"/>
   <link href="http://MichaelDoyle.github.com/"/>
-  <updated>2013-01-22T08:18:39-05:00</updated>
+  <updated>2013-01-26T21:44:23-05:00</updated>
   <id>http://MichaelDoyle.github.com/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Michael Doyle]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[New Blog!]]></title>
+    <link href="http://MichaelDoyle.github.com/blog/2013/01/26/new-blog/"/>
+    <updated>2013-01-26T17:53:00-05:00</updated>
+    <id>http://MichaelDoyle.github.com/blog/2013/01/26/new-blog</id>
+    <content type="html"><![CDATA[<p>Welcome to my blog, which is hosted on GitHub.</p>
+
+<p>I recently joined GitHub in hopes to:</p>
+
+<ul>
+<li>Establish a better online presense for myself as a software developer</li>
+<li>Get exposure to technologies I wouldn&#8217;t otherwise encounter in my day to day work, Git included</li>
+<li>Hopefully contribute to some cool projects</li>
+</ul>
+
+
+<p>Once I get up and running, I plan on writing about a range of topics that interest me. Mostly programming, music, things I&#8217;ve been up to on GitHub, and life in general.</p>
+
+<p>Until then, please bear with me while I get everything set up!</p>
+]]></content>
+  </entry>
   
 </feed>
