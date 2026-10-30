@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+    <linearGradient id="tildeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle container -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGrad)"/>
+  <rect width="64" height="64" rx="16" fill="none" stroke="#334155" stroke-width="2.5"/>
+
+  <!-- Tilde Symbol ~ -->
+  <path
+    d="M 13 33 C 15.5 26, 21 26, 24 32 C 27 38, 32.5 38, 35 31"
+    fill="none"
+    stroke="url(#tildeGrad)"
+    stroke-width="5.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- Forward Slash / -->
+  <line
+    x1="40"
+    y1="44"
+    x2="50"
+    y2="20"
+    stroke="#f8fafc"
+    stroke-width="5.5"
+    stroke-linecap="round"
+  />
+</svg>

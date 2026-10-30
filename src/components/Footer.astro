@@ -1,0 +1,44 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-neutral-200 dark:border-neutral-800 mt-20 py-10 transition-colors">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-neutral-500 dark:text-neutral-400">
+    <div>
+      © {currentYear} Michael Doyle. Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer" class="hover:text-neutral-900 dark:hover:text-neutral-100 underline decoration-neutral-300 dark:decoration-neutral-700">Astro</a> & <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="hover:text-neutral-900 dark:hover:text-neutral-100 underline decoration-neutral-300 dark:decoration-neutral-700">Tailwind CSS</a>.
+    </div>
+
+    <div class="flex items-center space-x-5">
+      <a
+        href="https://x.com/mikeydoyle"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+      >
+        𝕏
+      </a>
+      <a
+        href="https://github.com/MichaelDoyle"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+      >
+        GitHub
+      </a>
+      <a
+        href="https://linkedin.com/in/michaeljamesdoyle/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+      >
+        LinkedIn
+      </a>
+      <a
+        href="/rss.xml"
+        class="hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+      >
+        RSS
+      </a>
+    </div>
+  </div>
+</footer>

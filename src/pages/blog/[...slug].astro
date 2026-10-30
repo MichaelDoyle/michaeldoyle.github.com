@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(post.data.pubDate);
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.heroImage}
+>
+  <article class="max-w-2xl mx-auto">
+    <div class="mb-8">
+      <a
+        href="/blog"
+        class="inline-flex items-center text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 mb-6 transition-colors"
+      >
+        ← Back to writing
+      </a>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 mb-3 leading-tight">
+        {post.data.title}
+      </h1>
+
+      <div class="flex flex-wrap items-center gap-3 text-sm text-neutral-500 dark:text-neutral-400 font-mono mb-6">
+        <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+        {post.data.tags.length > 0 && (
+          <>
+            <span>•</span>
+            <div class="flex gap-1.5 font-sans">
+              {post.data.tags.map((tag: string) => (
+                <span class="text-xs px-2 py-0.5 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+
+      {post.data.heroImage && (
+        <div class="overflow-hidden rounded-2xl border border-neutral-200 dark:border-neutral-800 aspect-[16/9] bg-neutral-100 dark:bg-neutral-900 mb-8 shadow-sm">
+          <img
+            src={post.data.heroImage}
+            alt={post.data.heroImageAlt || post.data.title}
+            class="w-full h-full object-cover object-center"
+          />
+        </div>
+      )}
+    </div>
+
+    <!-- Prose Content -->
+    <div class="prose dark:prose-invert prose-neutral max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-pre:rounded-xl leading-relaxed">
+      <Content />
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-800 flex justify-between items-center text-sm">
+      <a
+        href="/blog"
+        class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 font-medium transition-colors"
+      >
+        ← Back to all posts
+      </a>
+      <a
+        href="#top"
+        class="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+      >
+        Back to top ↑
+      </a>
+    </div>
+  </article>
+</BaseLayout>

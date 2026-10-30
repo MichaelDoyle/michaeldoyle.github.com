@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const recentPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+
+const allProjects = await getCollection('projects');
+const openSourceProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 6);
+---
+
+<BaseLayout>
+  <!-- Hero Section -->
+  <section class="mb-14 sm:mb-16">
+
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50 mb-4">
+      Hi, I'm Michael Doyle.
+    </h1>
+    <p class="text-lg text-neutral-600 dark:text-neutral-300 max-w-2xl leading-relaxed mb-6">
+      Husband, dad, and software engineer writing about developer experience, agentic AI frameworks, and building software. At Google (Genkit, Firebase), previously Twitter (Fabric) and Goldman Sachs.
+    </p>
+
+    <div class="flex flex-wrap items-center gap-3 text-sm">
+      <a
+        href="/blog"
+        class="inline-flex items-center px-4 py-2 rounded-lg font-medium text-white bg-neutral-900 dark:bg-neutral-100 dark:text-neutral-900 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
+      >
+        Read Articles
+      </a>
+      <a
+        href="/about"
+        class="inline-flex items-center px-4 py-2 rounded-lg font-medium text-neutral-700 dark:text-neutral-300 bg-neutral-100 dark:bg-neutral-800/80 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors"
+      >
+        About Me
+      </a>
+      <div class="flex items-center gap-1 pl-2">
+        <a
+          href="https://x.com/mikeydoyle"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="X (Twitter) profile"
+          class="p-2 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
+        >
+          <span class="font-bold">𝕏</span>
+        </a>
+        <a
+          href="https://github.com/MichaelDoyle"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub profile"
+          class="p-2 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
+        >
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+          </svg>
+        </a>
+        <a
+          href="https://linkedin.com/in/michaeljamesdoyle/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn profile"
+          class="p-2 text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
+        >
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.62 1.62 0 0 0-1.63 1.63 1.62 1.62 0 0 0 1.63 1.62 1.62 1.62 0 0 0 1.62-1.62c0-.9-.73-1.63-1.62-1.63Z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Writing Section (2 COLUMNS) -->
+  {recentPosts.length > 0 && (
+    <section class="mb-16">
+      <div class="flex items-baseline justify-between mb-6 pb-2 border-b border-neutral-100 dark:border-neutral-800">
+        <div>
+          <h2 class="text-2xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
+            Latest Writing
+          </h2>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            Articles, tutorials, and technical musings.
+          </p>
+        </div>
+        <a
+          href="/blog"
+          class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline transition-colors shrink-0"
+        >
+          View all posts →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        {recentPosts.map((post) => (
+          <BlogPostCard
+            id={post.id}
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            heroImage={post.data.heroImage}
+            heroImageAlt={post.data.heroImageAlt}
+            tags={post.data.tags}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- Open Source Section (2 COLUMNS) -->
+  {openSourceProjects.length > 0 && (
+    <section class="pt-8 border-t border-neutral-200 dark:border-neutral-800">
+      <div class="flex items-baseline justify-between mb-6">
+        <div>
+          <h3 class="text-xl font-bold tracking-tight text-neutral-900 dark:text-neutral-100">
+            Open Source
+          </h3>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            Projects I own, maintain, or am a major contributor to.
+          </p>
+        </div>
+        <a
+          href="/projects"
+          class="text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100 transition-colors"
+        >
+          All projects →
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {openSourceProjects.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            category={project.data.category}
+            tags={project.data.tags}
+            github={project.data.github}
+            link={project.data.link}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>

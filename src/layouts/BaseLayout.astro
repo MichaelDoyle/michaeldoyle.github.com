@@ -1,0 +1,107 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: URL | string;
+}
+
+const {
+  title = 'Michael Doyle — Software Engineer & Builder',
+  description = 'Personal website, engineering blog, and open source projects by Michael Doyle.',
+  image = '/images/hello-world-hero.jpg',
+  canonicalURL = Astro.url,
+} = Astro.props;
+
+const siteTitle = title.includes('Michael Doyle') ? title : `${title} | Michael Doyle`;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title="Michael Doyle" href="/rss.xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{siteTitle}</title>
+    <meta name="title" content={siteTitle} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:site" content="@mikeydoyle" />
+    <meta property="twitter:creator" content="@mikeydoyle" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={siteTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+    <!-- Dark Mode Init Script (Defaults to dark mode unless user chose light) -->
+    <script is:inline>
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col text-neutral-900 dark:text-neutral-100 antialiased relative overflow-x-hidden">
+    <!-- Ambient Aurora Glow Orbs -->
+    <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
+      <!-- Top-right Violet/Indigo Aurora -->
+      <div class="absolute -top-32 -right-32 w-[650px] h-[650px] rounded-full bg-gradient-to-br from-purple-400/20 via-indigo-400/15 to-transparent dark:from-purple-600/20 dark:via-indigo-600/15 dark:to-transparent blur-[120px] transform-gpu"></div>
+      <!-- Mid-left Cyan/Blue Aurora -->
+      <div class="absolute top-[30%] -left-32 w-[550px] h-[550px] rounded-full bg-gradient-to-tr from-blue-400/20 via-cyan-400/10 to-transparent dark:from-blue-600/15 dark:via-cyan-500/10 dark:to-transparent blur-[130px] transform-gpu"></div>
+      <!-- Bottom-right Subtle Indigo Accent -->
+      <div class="absolute -bottom-40 right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-t from-violet-400/15 via-blue-400/10 to-transparent dark:from-violet-700/15 dark:via-blue-700/10 dark:to-transparent blur-[140px] transform-gpu"></div>
+    </div>
+
+    <Header />
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 sm:px-6 pt-10 pb-16">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Interactive Spotlight Cards Listener -->
+    <script is:inline>
+      function initSpotlights() {
+        const cards = document.querySelectorAll('.spotlight-card');
+        cards.forEach((card) => {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+          });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSpotlights);
+      } else {
+        initSpotlights();
+      }
+      document.addEventListener('astro:after-swap', initSpotlights);
+    </script>
+  </body>
+</html>

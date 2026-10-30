@@ -1,0 +1,66 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  heroImage?: string;
+  heroImageAlt?: string;
+  tags?: string[];
+}
+
+const { id, title, description, pubDate, heroImage, heroImageAlt = '', tags = [] } = Astro.props;
+
+const formattedDate = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+}).format(pubDate);
+---
+
+<article class="spotlight-card group flex flex-col justify-between p-5 rounded-2xl border border-neutral-200/90 dark:border-neutral-800/80 bg-white/95 dark:bg-neutral-900/80 backdrop-blur-sm hover:border-neutral-300 dark:hover:border-neutral-700 transition-all h-full shadow-xs">
+  <div>
+    {heroImage && (
+      <a href={`/blog/${id}`} class="block overflow-hidden rounded-xl mb-4 border border-neutral-200/80 dark:border-neutral-800 aspect-[16/9] bg-neutral-100 dark:bg-neutral-900">
+        <img
+          src={heroImage}
+          alt={heroImageAlt || title}
+          loading="lazy"
+          class="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-300"
+        />
+      </a>
+    )}
+
+    <div class="flex items-center justify-between gap-2 mb-2">
+      <time datetime={pubDate.toISOString()} class="text-xs text-neutral-400 dark:text-neutral-500 font-mono">
+        {formattedDate}
+      </time>
+    </div>
+
+    <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-2 leading-snug">
+      <a href={`/blog/${id}`} class="focus:outline-none">
+        {title}
+      </a>
+    </h3>
+
+    <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3">
+      {description}
+    </p>
+  </div>
+
+  {tags.length > 0 && (
+    <div class="flex flex-wrap gap-1.5 pt-2 border-t border-neutral-100 dark:border-neutral-800/60 mt-auto">
+      {tags.map((tag) => (
+        <span
+          class={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+            tag.toLowerCase() === 'ai'
+              ? 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800/60'
+              : 'text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-800/80'
+          }`}
+        >
+          #{tag}
+        </span>
+      ))}
+    </div>
+  )}
+</article>

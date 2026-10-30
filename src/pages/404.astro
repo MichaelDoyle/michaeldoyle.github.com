@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — Page Synthesis Failed">
+  <div class="max-w-2xl mx-auto py-8 sm:py-12">
+    <!-- macOS Terminal Window -->
+    <div class="rounded-2xl overflow-hidden border border-neutral-700/60 bg-[#0d1117] shadow-2xl text-left font-mono text-xs sm:text-sm">
+      <!-- Terminal Header / Titlebar -->
+      <div class="bg-[#161b22] px-4 py-3 flex items-center justify-between border-b border-neutral-800 select-none">
+        <div class="flex items-center space-x-2">
+          <div class="w-3 h-3 rounded-full bg-[#ff5f56] border border-[#e0443e]/50 cursor-pointer hover:opacity-80 transition-opacity"></div>
+          <div class="w-3 h-3 rounded-full bg-[#ffbd2e] border border-[#dea123]/50 cursor-pointer hover:opacity-80 transition-opacity"></div>
+          <div class="w-3 h-3 rounded-full bg-[#27c93f] border border-[#1aab29]/50 cursor-pointer hover:opacity-80 transition-opacity"></div>
+        </div>
+        <div class="text-neutral-400 text-xs font-mono flex items-center gap-1.5 opacity-90">
+          <span>🤖</span>
+          <span class="font-semibold text-neutral-300">doyle-bot</span>
+          <span class="text-neutral-500">—</span>
+          <span>agentic page synthesizer</span>
+        </div>
+        <div class="w-12 text-right text-[10px] text-neutral-500 font-mono">
+          zsh
+        </div>
+      </div>
+
+      <!-- Terminal Body -->
+      <div class="p-5 sm:p-6 space-y-3 min-h-[360px] text-neutral-300 leading-relaxed font-mono">
+        <!-- Command Line -->
+        <div class="flex flex-wrap items-center gap-2 text-neutral-400">
+          <span class="text-emerald-400 font-bold">notorious@d.o.y.l.e</span>
+          <span class="text-neutral-500">:</span>
+          <span class="text-blue-400">~/web</span>
+          <span class="text-neutral-500">$</span>
+          <span id="terminal-cmd" class="text-neutral-100 font-medium">doyle-bot recover --route <span id="current-path">/404</span></span>
+        </div>
+
+        <!-- Dynamic Agent Output Stream -->
+        <div id="terminal-logs" class="space-y-2.5 pt-2">
+          <!-- Logs will be progressively inserted by script -->
+        </div>
+
+        <!-- Interactive Next Steps (Revealed when synthesis concludes) -->
+        <div id="terminal-actions" class="hidden pt-4 border-t border-neutral-800/80 space-y-3">
+          <div class="text-neutral-400 text-xs">
+            Recovery ready. Select a destination:
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+            <a
+              href="/"
+              class="px-3 py-2 rounded-lg bg-neutral-800/80 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 hover:border-neutral-500 transition-all text-center group flex items-center justify-center gap-1.5"
+            >
+              <span>🏠</span>
+              <span>cd ~/ <span class="text-neutral-400 group-hover:text-neutral-200 font-bold">(Home)</span></span>
+            </a>
+            <a
+              href="/blog"
+              class="px-3 py-2 rounded-lg bg-neutral-800/80 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 hover:border-neutral-500 transition-all text-center group flex items-center justify-center gap-1.5"
+            >
+              <span>✍️</span>
+              <span>cd ~/blog</span>
+            </a>
+            <a
+              href="/projects"
+              class="px-3 py-2 rounded-lg bg-neutral-800/80 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 hover:border-neutral-500 transition-all text-center group flex items-center justify-center gap-1.5"
+            >
+              <span>📦</span>
+              <span>cd ~/projects</span>
+            </a>
+          </div>
+
+          <div class="pt-2 text-center sm:text-left">
+            <button
+              id="retry-synthesis-btn"
+              type="button"
+              class="text-neutral-500 hover:text-neutral-300 text-xs inline-flex items-center gap-1 transition-colors cursor-pointer underline decoration-dotted"
+            >
+              <span>↻</span>
+              <span>Re-prompt doyle-bot</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Terminal Blinking Cursor -->
+        <div id="terminal-cursor-line" class="flex items-center gap-1 text-emerald-400 pt-1">
+          <span>›</span>
+          <span class="inline-block w-2.5 h-4 bg-emerald-400 animate-pulse"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subtitle note -->
+    <div class="text-center mt-6 text-sm text-neutral-500 dark:text-neutral-400">
+      Error 404: The requested resource does not exist in this branch of reality.
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  function runDoyleBotAgent() {
+    const logsContainer = document.getElementById('terminal-logs');
+    const actionsContainer = document.getElementById('terminal-actions');
+    const cursorLine = document.getElementById('terminal-cursor-line');
+    const currentPathSpan = document.getElementById('current-path');
+
+    if (!logsContainer || !actionsContainer) return;
+
+    // Display actual current URL pathname
+    if (currentPathSpan && window.location.pathname) {
+      currentPathSpan.textContent = window.location.pathname;
+    }
+
+    logsContainer.innerHTML = '';
+    actionsContainer.classList.add('hidden');
+    if (cursorLine) cursorLine.classList.remove('hidden');
+
+    const steps = [
+      {
+        delay: 350,
+        html: '<span class="text-neutral-500 font-mono">[00:00.12]</span> <span class="text-neutral-400">Initializing autonomous agent runtime...</span>',
+      },
+      {
+        delay: 750,
+        html: '<span class="text-neutral-500 font-mono">[00:00.38]</span> <span class="text-amber-300 font-semibold">Anomaly detected:</span> <span class="text-amber-200">HTTP 404 (PAGE_NOT_FOUND)</span>',
+      },
+      {
+        delay: 1200,
+        html: '<span class="text-neutral-500 font-mono">[00:00.65]</span> <span class="text-neutral-300">Calling Genkit recovery flow:</span> <span class="text-blue-300">"synthesize_missing_page"</span>...',
+      },
+      {
+        delay: 1800,
+        html: '<span class="text-neutral-500 font-mono">[00:01.05]</span> <span class="text-purple-300/90 italic">Thinking: "Maybe if I hallucinate hard enough, the URL will exist..."</span>',
+      },
+      {
+        delay: 2400,
+        html: '<span class="text-neutral-500 font-mono">[00:01.52]</span> <span class="text-rose-400 font-semibold">Guardrail Alert:</span> <span class="text-rose-300">Hallucination check failed. Page definitely does not exist.</span>',
+      },
+      {
+        delay: 2900,
+        html: '<span class="text-neutral-500 font-mono">[00:01.90]</span> <span class="text-emerald-400">Graceful degradation active.</span> <span class="text-neutral-300">Standby for safe navigation options.</span>',
+      },
+    ];
+
+    steps.forEach((step) => {
+      setTimeout(() => {
+        const div = document.createElement('div');
+        div.className = 'text-xs sm:text-sm animate-fade-in';
+        div.innerHTML = step.html;
+        logsContainer.appendChild(div);
+      }, step.delay);
+    });
+
+    setTimeout(() => {
+      actionsContainer.classList.remove('hidden');
+      if (cursorLine) cursorLine.classList.add('hidden');
+    }, 3200);
+  }
+
+  function setup404Page() {
+    runDoyleBotAgent();
+
+    const retryBtn = document.getElementById('retry-synthesis-btn');
+    if (retryBtn) {
+      retryBtn.onclick = (e) => {
+        e.preventDefault();
+        runDoyleBotAgent();
+      };
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup404Page);
+  } else {
+    setup404Page();
+  }
+  document.addEventListener('astro:after-swap', setup404Page);
+</script>

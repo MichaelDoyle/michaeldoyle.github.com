@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://MichaelDoyle.github.com/sitemap.xml 

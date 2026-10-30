@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogPostCard from '../../components/BlogPostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Group posts by year
+const postsByYear = posts.reduce<Record<number, typeof posts>>((acc, post) => {
+  const year = post.data.pubDate.getFullYear();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const years = Object.keys(postsByYear)
+  .map(Number)
+  .sort((a, b) => b - a);
+---
+
+<BaseLayout
+  title="Blog"
+  description="Thoughts on AI engineering, developer tools, open source, and software craftsmanship by Michael Doyle."
+>
+  <header class="mb-12">
+    <div class="flex items-baseline justify-between mb-3">
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 dark:text-neutral-50">
+        Writing
+      </h1>
+      <a
+        href="/rss.xml"
+        class="text-xs font-mono px-2 py-1 rounded bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+      >
+        RSS Feed
+      </a>
+    </div>
+    <p class="text-neutral-600 dark:text-neutral-400">
+      Essays, architectural notes, and tutorials on building software and AI systems.
+    </p>
+  </header>
+
+  <div class="space-y-12">
+    {years.map((year) => (
+      <section>
+        <div class="text-sm font-semibold font-mono text-neutral-400 dark:text-neutral-500 mb-4 pb-2 border-b border-neutral-100 dark:border-neutral-800">
+          {year}
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {postsByYear[year].map((post) => (
+            <BlogPostCard
+              id={post.id}
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              heroImage={post.data.heroImage}
+              heroImageAlt={post.data.heroImageAlt}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</BaseLayout>
